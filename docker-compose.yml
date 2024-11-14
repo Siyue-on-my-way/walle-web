@@ -3,21 +3,27 @@
 # OpenSSL version: OpenSSL 1.1.0h
 version: '3.7'
 services:
-  web:
+  walle-web:
     image: alenx/walle-web:2.1
     container_name: walle-nginx
     hostname: nginx-web
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/proxy.conf:/etc/nginx/proxy.conf
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./fe:/walle-web/fe
+      - ./docker/logs/nginx:/usr/local/nginx/logs
     ports:
     # 如果宿主机80端口被占用，可自行修改为其他port(>=1024)
     # 0.0.0.0:要绑定的宿主机端口:docker容器内端口80
-      - "80:80"
+      - "75:80"
     depends_on:
-      - python
+      - walle-python
     networks:
       - walle-net
     restart: always
 
-  python:
+  walle-python:
     image: alenx/walle-python:2.1
     container_name: walle-python
     hostname: walle-python
@@ -32,12 +38,12 @@ services:
     expose:
       - "5000"
     depends_on:
-      - db
+      - walle-db
     networks:
       - walle-net
     restart: always
 
-  db:
+  walle-db:
     image: mysql
     container_name: walle-mysql
     hostname: walle-mysql
@@ -46,7 +52,7 @@ services:
       - ./walle.env
     command: [ '--default-authentication-plugin=mysql_native_password', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     ports:
-      - "3306:3306"
+      - "76:3306"
     expose:
       - "3306"
     volumes:
