@@ -12,12 +12,13 @@
 import os
 from walle.config.settings import Config
 
+# TODO, settings不是从walle.env中读取出来的，所以需要配置一下数据库
 SETTINGS = {
     "MYSQL_USER": "root",
-    "MYSQL_PASSWORD": "walle",
-    "MYSQL_DATABASE": "walle",
-    "MYSQL_ROOT_PASSWORD": "walle",
-    "MYSQL_HOST": "127.0.0.1",
+    "MYSQL_PASSWORD": "jianai2024",
+    "MYSQL_DATABASE": "devops",
+    "MYSQL_ROOT_PASSWORD": "jianai2024",
+    "MYSQL_HOST": "walle-mysql",
     "MYSQL_PORT": 3306,
 }
 
@@ -31,7 +32,7 @@ class ProdConfig(Config):
     # 服务启动 @TODO
     # HOST 修改为与 nginx server_name 一致.
     # 后续在web hooks与通知中用到此域名.
-    HOST = '0.0.0.0'
+    HOST = 'walle-web'
     PORT = 5000
     # https True, http False
     SSL = False
@@ -58,7 +59,7 @@ class ProdConfig(Config):
     LOG_FILE_MAX_BYTES = 100 * 1024 * 1024
 
     # 邮箱配置 @TODO
-    MAIL_SERVER = 'smtp.exmail.qq.com'
+    MAIL_SERVER = 'siyue_1993@163.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USE_TLS = False
