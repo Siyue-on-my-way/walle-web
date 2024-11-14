@@ -47,19 +47,19 @@ services:
     image: mysql
     container_name: walle-mysql
     hostname: walle-mysql
+    restart: always  # 如果容器退出，则总是重启容器
+    privileged: true  # 添加这一行以启用特权模式
     env_file:
       # walle.env需和docker-compose在同级目录
       - ./walle.env
-    command: [ '--default-authentication-plugin=mysql_native_password', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     ports:
       - "2076:3306"
     expose:
       - "3306"
     volumes:
-      - /data/walle/mysql:/var/lib/mysql
+      - ./docker/volumes/mysql:/var/lib/mysql
     networks:
       - walle-net
-    restart: always
 
 networks:
   walle-net:
